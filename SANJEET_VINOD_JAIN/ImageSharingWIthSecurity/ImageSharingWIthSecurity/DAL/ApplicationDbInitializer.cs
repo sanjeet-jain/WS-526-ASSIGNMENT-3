@@ -70,7 +70,14 @@ namespace ImageSharingWithSecurity.DAL
                 logger.LogDebug("Failed to create nixon user!");
             }
 
-            // TODO add other users and assign more roles
+            // TODO-Done add other users and assign more roles
+            logger.LogDebug("Adding user: sanjeet");
+            idResult = await CreateAccount(serviceProvider, "sanjeet@gmail.com", "sanjeet123", "User");
+            if (!idResult.Succeeded)
+            {
+                logger.LogDebug("Failed to create sanjeet user!");
+            }
+
 
             Tag portrait = new Tag { Name = "portrait" };
             db.Tags.Add(portrait);
@@ -78,7 +85,9 @@ namespace ImageSharingWithSecurity.DAL
             db.Tags.Add(architecture);
 
             // TODO add other tags
-
+            Tag custom = new Tag { Name = "custom" };
+            db.Tags.Add(custom);
+          
             await db.SaveChangesAsync();
 
         }
