@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <!-- <AddRazorSupportForMvc>true</AddRazorSupportForMvc> -->
+    <!--
+    <UserSecretsId>aspnet-ImageSharingWIthSecurity-3F9F25E6-6EC3-4036-8BC0-B278C8ED0D3E</UserSecretsId> -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\data\info\**" />
+    <Content Remove="wwwroot\data\info\**" />
+    <EmbeddedResource Remove="wwwroot\data\info\**" />
+    <None Remove="wwwroot\data\info\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="6.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\data\images\" />
+  </ItemGroup>
+
+</Project>
