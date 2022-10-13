@@ -29,12 +29,12 @@ namespace ImageSharingWithSecurity.DAL
         public async Task SeedDatabase(IServiceProvider serviceProvider)
         {
 
-            db.Database.Migrate();
+            await db.Database.MigrateAsync();
 
             db.RemoveRange(db.Images);
             db.RemoveRange(db.Tags);
             db.RemoveRange(db.Users);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             logger.LogDebug("Adding role: User");
             var idResult = await CreateRole(serviceProvider, "User");
@@ -43,8 +43,18 @@ namespace ImageSharingWithSecurity.DAL
                 logger.LogDebug("Failed to create User role!");
             }
 
-            // TODO add other roles
+            // TODO-DONE add other roles
+            idResult = await CreateRole(serviceProvider, "Admin");
+            if (!idResult.Succeeded)
+            {
+                logger.LogDebug("Failed to create Admin role!");
+            }
 
+            idResult = await CreateRole(serviceProvider, "Approver");
+            if (!idResult.Succeeded)
+            {
+                logger.LogDebug("Failed to create Approver role!");
+            }
 
             logger.LogDebug("Adding user: jfk");
             idResult = await CreateAccount(serviceProvider, "jfk@example.org", "jfk123", "Admin");
