@@ -54,9 +54,16 @@ namespace ImageSharingWithSecurity.Controllers
             {
                 logger.LogDebug("Registering user: " + model.Email);
                 IdentityResult result = null;
-                // TODO register the user from the model, and log them in
+                // TODO-DONE register the user from the model, and log them in
+                var user = new ApplicationUser(model.Email, model.ADA);
+                result = await userManager.CreateAsync(user, model.Password);
 
-
+                if (result.Succeeded)
+                {
+                    SaveADACookie(model.ADA);
+                    await signInManager.SignInAsync(user, false);
+                    return RedirectToAction("Index", "Home", new { model.Email});
+                }
             }
 
             // If we got this far, something failed, redisplay form
@@ -84,9 +91,14 @@ namespace ImageSharingWithSecurity.Controllers
                 return View(model);
             }
 
-            // TODO log in the user from the model (make sure they are still active)
-
-
+            // TODO-DONE log in the user from the model (make sure they are still active)
+            var result = await signInManager.PasswordSignInAsync(model.UserName,model.Password,model.RememberMe,false);
+            if (result.Succeeded)
+            {
+                var user = userManager.FindByNameAsync(model.UserName);
+                SaveADACookie(user.Result.ADA);
+                return RedirectToAction("Index","Home",model.UserName);
+            }
             return View(model);
         }
 
@@ -203,7 +215,10 @@ namespace ImageSharingWithSecurity.Controllers
 
         protected void SaveADACookie(bool value)
         {
-            // TODO save the value in a cookie field key
+            // TODO-DONE save the value in a cookie field key
+            var options = new CookieOptions
+                { IsEssential = true, Secure = true, SameSite = SameSiteMode.None, Expires = DateTime.Now.AddMonths(3) };
+            Response.Cookies.Append("ADA", value.ToString().ToLower(), options);
 
         }
 
