@@ -17,7 +17,6 @@ namespace ImageSharingWithSecurity.Controllers;
 using SysIOFile = File;
 
 [Authorize]
-[AutoValidateAntiforgeryToken]
 public class ImagesController : BaseController
 {
     private readonly IWebHostEnvironment hostingEnvironment;
@@ -56,7 +55,6 @@ public class ImagesController : BaseController
 
 
     [HttpGet]
-    [Authorize(Roles = "User,Approver,Admin")]
     public ActionResult Upload()
     {
         CheckAda();
@@ -69,7 +67,6 @@ public class ImagesController : BaseController
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "User,Approver,Admin")]
     public async Task<ActionResult> Upload(ImageView imageView)
     {
         CheckAda();
@@ -133,7 +130,6 @@ public class ImagesController : BaseController
     }
 
     [HttpGet]
-    [Authorize(Roles = "User,Approver,Admin")]
     public ActionResult Query()
     {
         CheckAda();
@@ -143,8 +139,6 @@ public class ImagesController : BaseController
     }
 
     [HttpGet]
-    [Authorize(Roles = "User,Approver,Admin")]
-    [ValidateAntiForgeryToken]
     public ActionResult Details(int Id)
     {
         CheckAda();
@@ -169,8 +163,6 @@ public class ImagesController : BaseController
     }
 
     [HttpGet]
-    [Authorize(Roles = "User,Approver,Admin")]
-    [ValidateAntiForgeryToken]
     public async Task<ActionResult> Edit(int Id)
     {
         CheckAda();
@@ -198,7 +190,6 @@ public class ImagesController : BaseController
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "User,Approver,Admin")]
     public async Task<ActionResult> DoEdit(int Id, ImageView imageView)
     {
         CheckAda();
@@ -230,8 +221,6 @@ public class ImagesController : BaseController
     }
 
     [HttpGet]
-    [Authorize(Roles = "User,Approver,Admin")]
-    [ValidateAntiForgeryToken]
     public async Task<ActionResult> Delete(int Id)
     {
         CheckAda();
@@ -260,7 +249,6 @@ public class ImagesController : BaseController
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "User,Approver,Admin")]
     public async Task<ActionResult> DoDelete(int Id)
     {
         CheckAda();
@@ -280,7 +268,6 @@ public class ImagesController : BaseController
     }
 
     [HttpGet]
-    [Authorize(Roles = "User,Approver,Admin")]
     public async Task<ActionResult> ListAll()
     {
         CheckAda();
@@ -292,7 +279,6 @@ public class ImagesController : BaseController
     }
 
     [HttpGet]
-    [Authorize(Roles = "User,Approver,Admin")]
     public async Task<IActionResult> ListByUser()
     {
         CheckAda();
@@ -306,8 +292,6 @@ public class ImagesController : BaseController
     }
 
     [HttpGet]
-    [Authorize(Roles = "User,Approver,Admin")]
-    [ValidateAntiForgeryToken]
     public async Task<ActionResult> DoListByUser(ListByUserModel userView)
     {
         CheckAda();
@@ -321,8 +305,7 @@ public class ImagesController : BaseController
         /*
          * Eager loading of related entities
          */
-        var images = db.Entry(user).Collection(t => t.Images).Query().Where(im => im.Approved).Include(im => im.User)
-            .Include(t => t.Tag)
+        var images = db.Entry(user).Collection(t => t.Images).Query().Where(im => im.Approved).Include(im => im.User).Include(t => t.Tag)
             .ToList();
         return View("ListAll", user.Images);
         // End TODO
@@ -339,8 +322,6 @@ public class ImagesController : BaseController
     }
 
     [HttpGet]
-    [Authorize(Roles = "User,Approver,Admin")]
-    [ValidateAntiForgeryToken]
     public async Task<ActionResult> DoListByTag(ListByTagModel tagView)
     {
         CheckAda();
@@ -361,7 +342,6 @@ public class ImagesController : BaseController
 
     [HttpGet]
     [Authorize(Roles = "Approver")]
-    [ValidateAntiForgeryToken]
     public IActionResult Approve()
     {
         CheckAda();

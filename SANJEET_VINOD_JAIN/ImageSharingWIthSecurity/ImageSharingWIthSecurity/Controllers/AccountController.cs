@@ -14,7 +14,6 @@ using Microsoft.Extensions.Logging;
 namespace ImageSharingWithSecurity.Controllers;
 
 [Authorize]
-[AutoValidateAntiforgeryToken]
 public class AccountController : BaseController
 {
     public enum PasswordMessageId
@@ -123,7 +122,6 @@ public class AccountController : BaseController
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "User,Approver,Admin")]
     public async Task<ActionResult> Password(LocalPasswordModel model)
     {
         CheckAda();
