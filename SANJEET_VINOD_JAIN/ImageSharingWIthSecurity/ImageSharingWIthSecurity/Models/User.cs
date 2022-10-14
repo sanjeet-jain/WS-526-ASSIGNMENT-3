@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿namespace ImageSharingWithSecurity.Models;
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ImageSharingWithSecurity.Models
-{
 
-    /*
-     * Replaced by IdentityUser
-     */
-
-}
+/*
+ * Replaced by IdentityUser
+ */

@@ -1,4 +1,4 @@
-﻿@model ImageSharingWithSecurity.Models.ListByTagModel
+﻿@model ListByTagModel
 
 @{
     ViewBag.Title = "List Images By Tag";
@@ -6,18 +6,18 @@
 
 <h2>@ViewBag.Title</h2>
 
-<form method="get" asp-action="DoListByTag" asp-controller="Images">
+<form class="form-group" method="get" asp-action="DoListByTag" asp-controller="Images">
 
     <fieldset>
         <legend>Choose a tag</legend>
         <p>
-            Tag: 
+            Tag:
             <select asp-for="Id" asp-items="Model.Tags">
                 <option disabled selected value="">Select a tag</option>
             </select>
         </p>
         <p>
-            <input type="submit" value="List" />
+            <input type="submit" value="List"/>
         </p>
     </fieldset>
 

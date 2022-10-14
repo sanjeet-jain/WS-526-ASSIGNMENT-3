@@ -1,4 +1,4 @@
-﻿@model ImageSharingWithSecurity.Models.ManageModel
+﻿@model ManageModel
 
 @{
     ViewBag.Title = "Update Users";
@@ -6,7 +6,7 @@
 
 <h2>@ViewBag.Title</h2>
 
-<form method="post" asp-action="Manage" asp-controller="Account">
+<form class="form-group" method="post" asp-action="Manage" asp-controller="Account">
 
     <fieldset>
         <legend>Deactivate/Reactivate Users</legend>
@@ -21,7 +21,7 @@
             {
                 <tr>
                     <td>
-                        <input type="hidden" asp-for="Users[i].Value" />
+                        <input type="hidden" asp-for="Users[i].Value"/>
                         @Model.Users[i].Text
                     </td>
                     <td>
@@ -41,4 +41,3 @@
     <p>@ViewBag.Message</p>
 
 </form>
-

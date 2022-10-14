@@ -22,11 +22,11 @@
     padding: 10px !important;
 }
 
-    .twoColumnHdrFtr #header h1 {
-        margin: 0 !important;
-        text-align: center !important;
-        /* padding: 10px !important ; */
-    }
+.twoColumnHdrFtr #header h1 {
+    margin: 0 !important;
+    text-align: center !important;
+    /* padding: 10px !important ; */
+}
 
 .twoColumnHdrFtr #sidebar {
     background: #ebebeb !important;
@@ -36,17 +36,11 @@
     width: 30% !important;
 }
 
-    .twoColumnHdrFtr #sidebar h1 {
-        font-size: 100% !important;
-    }
+.twoColumnHdrFtr #sidebar h1 { font-size: 100% !important; }
 
-h2 {
-    font-size: 100% !important;
-}
+h2 { font-size: 100% !important; }
 
-legend {
-    font-size: 50% !important;
-}
+legend { font-size: 50% !important; }
 
 #nav {
     /* background:#c99 !important ; */
@@ -55,17 +49,17 @@ legend {
     padding: 5px 10px !important;
 }
 
-    #nav ul {
-        list-style: none !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
+#nav ul {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
 
-    #nav li {
-        display: inline !important;
-        margin: 0 !important;
-        padding: 0 10px !important;
-    }
+#nav li {
+    display: inline !important;
+    margin: 0 !important;
+    padding: 0 10px !important;
+}
 
 .twoColumnHdrFtr #content {
     float: left !important;
@@ -83,6 +77,4 @@ legend {
     width: 90vw !important;
 }
 
-    .twoColumnHdrFtr #footer p {
-        font-size: x-small !important;
-    }
+.twoColumnHdrFtr #footer p { font-size: x-small !important; }

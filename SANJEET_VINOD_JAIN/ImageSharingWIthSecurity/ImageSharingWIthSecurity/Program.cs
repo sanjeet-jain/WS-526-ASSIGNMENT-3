@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
 /*
  * Add services to the container.
@@ -32,12 +32,12 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
-string connectionString = builder.Configuration.GetConnectionString("ImageSharingDB");
+var connectionString = builder.Configuration.GetConnectionString("ImageSharingDB");
 // TODO-DONE add database context & enable saving data in the log (not for production use!)
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(connectionString);
-    options.EnableSensitiveDataLogging(true);
+    options.EnableSensitiveDataLogging();
 });
 
 // Replacement for database error page
@@ -45,17 +45,17 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // TODO add Identity service
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-{
-    options.SignIn.RequireConfirmedAccount = false;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireLowercase = false;
-    options.Password.RequireUppercase = false;
-    options.Password.RequireDigit = false;
-})
+    {
+        options.SignIn.RequireConfirmedAccount = false;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireDigit = false;
+    })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-WebApplication app = builder.Build();
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -80,8 +80,8 @@ app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+        "default",
+        "{controller=Home}/{action=Index}/{id?}");
 });
 
 /*

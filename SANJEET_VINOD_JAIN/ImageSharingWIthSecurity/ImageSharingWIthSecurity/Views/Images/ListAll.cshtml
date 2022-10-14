@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ImageSharingWithSecurity.Models.Image>
+﻿@model IEnumerable<Image>
 
 @{
     ViewBag.Title = "All Images";
@@ -28,18 +28,18 @@
             </td>
             <td>
                 <a asp-action="Details" asp-route-id="@image.Id">Details</a>
-
-                @if (ViewBag.UserName.Equals(image.User.UserName))
-                {
-                        <!-- TODO add Edit and Delete links -->
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@image.Id">Edit</a>
-                        </td>
-                        <td>
-                            <a asp-action="Delete" asp-route-id="@image.Id">Delete</a>
-                        </td>
-                }
             </td>
+
+            @if (ViewBag.UserName.Equals(image.User.UserName))
+            {
+                <!-- TODO add Edit and Delete links -->
+                <td>
+                    <a asp-action="Edit" asp-route-id="@image.Id">Edit</a>
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@image.Id">Delete</a>
+                </td>
+            }
         </tr>
     }
 </table>

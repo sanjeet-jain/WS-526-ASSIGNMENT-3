@@ -8,7 +8,7 @@
 
 <h2>@ViewBag.Title</h2>
 
-<form method="post" asp-action="DoEdit" asp-controller="Images">
+<form class="form-group" method="post" asp-action="DoEdit" asp-controller="Images">
 
     <fieldset>
         <legend>Edit Image Information</legend>
@@ -16,37 +16,40 @@
         <input type="hidden" asp-for="Id"/>
 
         <p>
-            <img src="~/@(ImagesController.imageContextPath(Model.Id))" />
+            <img src="~/@(ImagesController.imageContextPath(Model.Id))"/>
         </p>
 
         <p>Image id: @Model.Id</p>
 
         <p>
-            Caption: <input asp-for="Caption" />
-            <span asp-validation-for="Caption" />
+            Caption: <input asp-for="Caption"/>
+            <span asp-validation-for="Caption"/>
         </p>
-        <p>Select a tag: 
+        <p>
+            Select a tag:
             <select asp-for="TagId" asp-items="Model.Tags">
                 <option disabled selected value="">Select a tag</option>
             </select>
         </p>
         <p>
-            Description:<br />
+            Description:<br/>
             <textarea asp-for="Description" cols="40" rows="5">Enter description here.</textarea>
-            <span asp-validation-for="Description" />
+            <span asp-validation-for="Description"/>
         </p>
         <p>
             Date taken:
             <label asp-for="DateTaken"/>
             <input asp-for="DateTaken"/>
-            <span asp-validation-for="DateTaken" />
+            <span asp-validation-for="DateTaken"/>
         </p>
         <p>
-            <input type="submit" value="Submit Changes" />
+            <input type="submit" value="Submit Changes"/>
         </p>
     </fieldset>
 
     <p>@ViewBag.Message</p>
-    <p><div class="text-danger" asp-validation-summary="ModelOnly"></div></p>
+    <p>
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+    </p>
 
 </form>

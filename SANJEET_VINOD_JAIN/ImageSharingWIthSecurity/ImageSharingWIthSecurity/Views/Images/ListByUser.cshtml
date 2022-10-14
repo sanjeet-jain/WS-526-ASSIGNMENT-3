@@ -1,4 +1,4 @@
-﻿@model ImageSharingWithSecurity.Models.ListByUserModel
+﻿@model ListByUserModel
 
 @{
     ViewBag.Title = "List Images By User";
@@ -6,20 +6,20 @@
 
 <h2>@ViewBag.Title</h2>
 
-<form method="get" asp-action="DoListByUser" asp-controller="Images">
+<form class="form-group" method="get" asp-action="DoListByUser" asp-controller="Images">
 
     <fieldset>
         <legend>Choose a user</legend>
         <p>
             <!-- TODO select user from a drop-down menu -->
-            User: 
+            User:
             <select asp-for="Id" asp-items="Model.Users">
                 <option disabled selected value="">Select a User</option>
             </select>
 
         </p>
         <p>
-            <input type="submit" value="List" />
+            <input type="submit" value="List"/>
         </p>
     </fieldset>
 

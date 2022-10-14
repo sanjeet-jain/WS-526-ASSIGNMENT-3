@@ -1,4 +1,4 @@
-﻿@model ImageSharingWithSecurity.Models.ImageView
+﻿@model ImageView
 
 @{
     ViewBag.Title = "Upload an Image";
@@ -8,15 +8,14 @@
 
 <h2>@ViewBag.Title</h2>
 
-<form method="post" asp-action="Upload" asp-controller="Images" enctype="multipart/form-data">
-
+<form class="form-group" method="post" asp-action="Upload" asp-controller="Images" enctype="multipart/form-data">
 
 
     <fieldset>
         <legend>Enter Image Information</legend>
         <p>
             Caption: <!-- TODO-DONE -->
-            <input asp-for="Caption" /><span asp-validation-for="Caption" />
+            <input asp-for="Caption"/><span asp-validation-for="Caption"/>
             <br/>
             <span class="text-danger" asp-validation-for="Caption"></span>
 
@@ -32,7 +31,7 @@
 
         </p>
         <p>
-            Description:<br /> <!-- TODO-DONE -->
+            Description:<br/> <!-- TODO-DONE -->
             <textarea asp-for="Description" cols="40" rows="5">
                 Enter description here.
             </textarea>
@@ -41,7 +40,7 @@
 
         </p>
         <p>
-            Date taken:  <!-- TODO-DONE -->
+            Date taken: <!-- TODO-DONE -->
             <input asp-for="DateTaken"/><span asp-validation-for="DateTaken"/>
             <br/>
             <span class="text-danger" asp-validation-for="DateTaken"></span>
@@ -49,7 +48,7 @@
 
         </p>
         <p>
-            <input asp-for="ImageFile" />
+            <input asp-for="ImageFile"/>
             @if (ViewBag.ImageNotUploaded)
             {
                 <br/>
@@ -58,7 +57,7 @@
 
         </p>
         <p>
-            <input type="submit" value="Upload" />
+            <input type="submit" value="Upload"/>
         </p>
     </fieldset>
 

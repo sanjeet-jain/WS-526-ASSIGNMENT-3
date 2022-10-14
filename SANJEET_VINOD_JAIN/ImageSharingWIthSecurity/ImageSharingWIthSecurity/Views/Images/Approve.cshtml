@@ -1,4 +1,4 @@
-﻿@model ImageSharingWithSecurity.Models.ApproveModel
+﻿@model ApproveModel
 
 @{
     ViewData["Title"] = "Approve Images";
@@ -7,7 +7,7 @@
 
 <h2>@ViewBag.Title</h2>
 
-<form method="post" asp-action="Approve" asp-controller="Images">
+<form class="form-group" method="post" asp-action="Approve" asp-controller="Images">
 
     <fieldset>
         <legend>Approve Images</legend>
@@ -22,11 +22,11 @@
             {
                 <tr>
                     <td>
-                        <input type="hidden" asp-for="Images[i].Value" />
+                        <input type="hidden" asp-for="Images[i].Value"/>
                         @Model.Images[i].Text
                     </td>
                     <td>
-                        <input asp-for="Images[i].Selected" />
+                        <input asp-for="Images[i].Selected"/>
                     </td>
                 </tr>
             }
@@ -34,7 +34,7 @@
         </table>
 
         <p>
-            <input type="submit" value="Save Changes" />
+            <input type="submit" value="Save Changes"/>
         </p>
 
     </fieldset>
@@ -42,4 +42,3 @@
     <p>@ViewBag.Message</p>
 
 </form>
-

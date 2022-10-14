@@ -1,82 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using ImageSharingWithSecurity.DAL;
-using Microsoft.AspNetCore.Identity;
-using ImageSharingWithSecurity.Models;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+using ImageSharingWithSecurity.DAL;
+using ImageSharingWithSecurity.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
-namespace ImageSharingWithSecurity.Controllers
+namespace ImageSharingWithSecurity.Controllers;
+
+public class BaseController : Controller
 {
-    public class BaseController : Controller
+    protected ApplicationDbContext db;
+
+    protected UserManager<ApplicationUser> userManager;
+
+    protected BaseController(UserManager<ApplicationUser> userManager,
+        ApplicationDbContext db)
     {
-        protected ApplicationDbContext db;
-
-        protected UserManager<ApplicationUser> userManager;
-
-        protected BaseController(UserManager<ApplicationUser> userManager, 
-                                 ApplicationDbContext db)
-        {
-            this.db = db;
-            this.userManager = userManager;
-        }
+        this.db = db;
+        this.userManager = userManager;
+    }
 
 
-        protected void CheckAda()
-        {
-            ViewBag.isADA = GetADAFlag();
-        }
+    protected void CheckAda()
+    {
+        ViewBag.isADA = GetADAFlag();
+    }
 
-        protected bool GetADAFlag()
-        {
-            var cookie = Request.Cookies["ADA"];
-            return (cookie != null && "true".Equals(cookie));
-        }
+    protected bool GetADAFlag()
+    {
+        var cookie = Request.Cookies["ADA"];
+        return cookie != null && "true".Equals(cookie);
+    }
 
-        protected async Task<ApplicationUser> GetLoggedInUser()
-        {
-            //return Request.Cookies["Username"];
-            var user = HttpContext.User;
-            if (user == null || user.Identity == null || user.Identity.Name == null)
-            {
-                return null;
-            }
-            return await userManager.FindByNameAsync(user.Identity.Name);
-        }
+    protected async Task<ApplicationUser> GetLoggedInUser()
+    {
+        //return Request.Cookies["Username"];
+        var user = HttpContext.User;
+        if (user == null || user.Identity == null || user.Identity.Name == null) return null;
+        return await userManager.FindByNameAsync(user.Identity.Name);
+    }
 
-        protected ActionResult ForceLogin()
-        {
-            return RedirectToAction("Login", "Account");
-        }
+    protected ActionResult ForceLogin()
+    {
+        return RedirectToAction("Login", "Account");
+    }
 
-        protected ActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
-        }
+    protected ActionResult RedirectToLocal(string returnUrl)
+    {
+        if (Url.IsLocalUrl(returnUrl))
+            return Redirect(returnUrl);
+        return RedirectToAction("Index", "Home");
+    }
 
-        protected IQueryable<Image> ApprovedImages(IQueryable<Image> images)
-        {
-            return images.Where(im => im.Approved);
-        }
+    protected IQueryable<Image> ApprovedImages(IQueryable<Image> images)
+    {
+        return images.Where(im => im.Approved);
+    }
 
-        protected IQueryable<Image> ApprovedImages()
-        {
-            return ApprovedImages(db.Images);
-        }
+    protected IQueryable<Image> ApprovedImages()
+    {
+        return ApprovedImages(db.Images);
+    }
 
-        protected IQueryable<ApplicationUser> ActiveUsers()
-        {
-            return userManager.Users.Where(u => u.Active);
-        }
+    protected IQueryable<ApplicationUser> ActiveUsers()
+    {
+        return userManager.Users.Where(u => u.Active);
     }
 }

@@ -1,14 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace ImageSharingWithSecurity.Models
+namespace ImageSharingWithSecurity.Models;
+
+public class ManageModel
 {
-    public class ManageModel
-    {
-        public IList<SelectListItem> Users { get; set; }
-
-    }
+    public IList<SelectListItem> Users { get; set; }
 }

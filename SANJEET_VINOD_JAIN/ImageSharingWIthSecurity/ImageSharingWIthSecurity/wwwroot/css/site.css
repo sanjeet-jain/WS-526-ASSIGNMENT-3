@@ -16,9 +16,7 @@
     text-align: left;
 }
 
-.twoColumnHdrFtr #header {
-    background: #dddddd;
-}
+.twoColumnHdrFtr #header { background: #dddddd; }
 
 .twoColumnHdrFtr #header h1 {
     margin: 0;
@@ -34,9 +32,7 @@
     width: 10%;
 }
 
-.twoColumnHdrFtr #sidebar h1 {
-    font-size: 100%;
-}
+.twoColumnHdrFtr #sidebar h1 { font-size: 100%; }
 
 #nav {
     /* background:#c99; */
@@ -73,6 +69,4 @@
     width: 90vw;
 }
 
-.twoColumnHdrFtr #footer p {
-    font-size: x-small;
-}
+.twoColumnHdrFtr #footer p { font-size: x-small; }
