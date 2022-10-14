@@ -116,10 +116,12 @@ public class AccountController : BaseController
                 SaveADACookie(user.ADA);
                 return Redirect(returnUrl ?? "/");
             }
-
-            await signInManager.SignOutAsync();
-            ViewBag.Message = "User is INACTIVE!";
-            return View(model);
+            else
+            {
+                await signInManager.SignOutAsync();
+                ViewBag.Message = "User is INACTIVE!";
+                return View(model);
+            }
         }
 
         ViewBag.Message = "Incorrect Credentials";
@@ -260,7 +262,7 @@ public class AccountController : BaseController
     {
         // TODO-DONE save the value in a cookie field key
         var options = new CookieOptions
-            { IsEssential = true, Secure = true, SameSite = SameSiteMode.None, Expires = DateTime.Now.AddMonths(3) };
+        { IsEssential = true, Secure = true, SameSite = SameSiteMode.None, Expires = DateTime.Now.AddMonths(3) };
         Response.Cookies.Append("ADA", value.ToString().ToLower(), options);
     }
 }
