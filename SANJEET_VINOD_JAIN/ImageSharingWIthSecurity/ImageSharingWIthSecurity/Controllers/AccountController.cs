@@ -221,8 +221,7 @@ public class AccountController : BaseController
     public async Task<IActionResult> AccessDenied()
     {
         CheckAda();
-        //return View();
-        return RedirectToActionPermanent("Index", "Home");
+        return View();
     }
 
     protected void SaveADACookie(bool value)
