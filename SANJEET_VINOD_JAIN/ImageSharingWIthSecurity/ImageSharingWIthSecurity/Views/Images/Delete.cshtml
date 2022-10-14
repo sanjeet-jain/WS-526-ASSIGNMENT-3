@@ -16,7 +16,7 @@
         <input asp-for="Id" class="hidden"/>
 
         <p>
-            <img src="~/@(ImagesController.imageContextPath(Model.Id))"/>
+            <img class="img-thumbnail" src="~/@(ImagesController.imageContextPath(Model.Id))"/>
         </p>
 
         <p>Image id: @Model.Id</p>
