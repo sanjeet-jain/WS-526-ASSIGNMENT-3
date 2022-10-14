@@ -75,6 +75,7 @@ public class ImagesController : BaseController
 
         if (!ModelState.IsValid)
         {
+            ViewBag.Message = "Please correct the errors in the form!";
             ViewBag.ImageErrorMessage = "No image file specified!";
             ViewBag.ImageNotUploaded = true;
             if (ModelState["DateTaken"]?.Errors.Count > 0)
@@ -144,7 +145,7 @@ public class ImagesController : BaseController
         CheckAda();
 
         var image = db.Images.Find(Id);
-        if (image == null) return RedirectToAction("Error", "Home", new { ErrId = "Details:" + Id });
+        if (image == null) return RedirectToAction("Error", "Home", new { ErrId = "Details: No Image Found" + Id });
 
         var imageView = new ImageView();
         imageView.Id = image.Id;
@@ -200,6 +201,11 @@ public class ImagesController : BaseController
             ViewBag.Message = "Please correct the errors on the page";
             imageView.Id = Id;
             imageView.Tags = new SelectList(db.Tags, "Id", "Name", imageView.TagId);
+            if (ModelState["DateTaken"]?.Errors.Count > 0)
+            {
+                ModelState["DateTaken"].Errors.Clear();
+                ModelState.AddModelError("DateTaken", "Please Enter Valid Date");
+            }
             return View("Edit", imageView);
         }
 

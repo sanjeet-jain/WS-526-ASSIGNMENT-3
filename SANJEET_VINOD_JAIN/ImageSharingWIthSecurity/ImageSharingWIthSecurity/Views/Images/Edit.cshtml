@@ -16,31 +16,40 @@
         <input type="hidden" asp-for="Id"/>
 
         <p>
-            <img src="~/@(ImagesController.imageContextPath(Model.Id))"/>
-        </p>
+            <img class="img-thumbnail" src="~/@(ImagesController.imageContextPath(Model.Id))" />
+        
+            </p>
 
         <p>Image id: @Model.Id</p>
 
         <p>
             Caption: <input asp-for="Caption"/>
-            <span asp-validation-for="Caption"/>
+            <br/>
+            <span class="text-danger" asp-validation-for="Caption"></span>
+
         </p>
         <p>
             Select a tag:
             <select asp-for="TagId" asp-items="Model.Tags">
                 <option disabled selected value="">Select a tag</option>
             </select>
+            <br/>
+            <span class="text-danger" asp-validation-for="TagId"></span>
+
         </p>
         <p>
             Description:<br/>
             <textarea asp-for="Description" cols="40" rows="5">Enter description here.</textarea>
-            <span asp-validation-for="Description"/>
+            <br/>
+            <span class="text-danger" asp-validation-for="Description"></span>
         </p>
         <p>
             Date taken:
             <label asp-for="DateTaken"/>
             <input asp-for="DateTaken"/>
-            <span asp-validation-for="DateTaken"/>
+            <br/>
+            <span class="text-danger" asp-validation-for="DateTaken"></span>
+
         </p>
         <p>
             <input type="submit" value="Submit Changes"/>
@@ -49,7 +58,7 @@
 
     <p>@ViewBag.Message</p>
     <p>
-        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+        <div class="text-danger" asp-validation-summary="All"></div>
     </p>
 
 </form>
