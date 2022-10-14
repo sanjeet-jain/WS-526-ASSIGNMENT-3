@@ -305,7 +305,7 @@ public class ImagesController : BaseController
         /*
          * Eager loading of related entities
          */
-        var images = db.Entry(user).Collection(t => t.Images).Query().Where(im => im.Approved).Include(im => im.User)
+        var images = db.Entry(user).Collection(t => t.Images).Query().Where(im => im.Approved).Include(im => im.User).Include(t => t.Tag)
             .ToList();
         return View("ListAll", user.Images);
         // End TODO
