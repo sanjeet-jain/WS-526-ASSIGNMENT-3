@@ -269,6 +269,8 @@ public class ImagesController : BaseController
 
         //db.Entry(imageEntity).State = EntityState.Deleted;
         db.Images.Remove(image);
+        SysIOFile.Delete(imageDataFile(image.Id));
+
         await db.SaveChangesAsync();
         return RedirectToAction("Index", "Home");
     }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ImageSharingWithSecurity.DAL;
 using ImageSharingWithSecurity.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +14,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 
 namespace ImageSharingWithSecurity.Controllers;
+
+using SysIOFile = File;
 
 [Authorize]
 public class AccountController : BaseController
@@ -23,19 +27,32 @@ public class AccountController : BaseController
         RemoveLoginSuccess
     }
 
+    private readonly IWebHostEnvironment hostingEnvironment;
+
     private readonly ILogger<AccountController> logger;
     protected SignInManager<ApplicationUser> signInManager;
+
 
     // Dependency injection of DB context and user/signin managers
     public AccountController(UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         ApplicationDbContext db,
-        ILogger<AccountController> logger)
+        ILogger<AccountController> logger,
+        IWebHostEnvironment environment)
         : base(userManager, db)
     {
+        hostingEnvironment = environment;
         this.signInManager = signInManager;
         this.logger = logger;
     }
+
+    protected string imageDataFile(int id)
+    {
+        return Path.Combine(
+            hostingEnvironment.WebRootPath,
+            "data", "images", "img-" + id + ".jpg");
+    }
+
 
     [HttpGet]
     [AllowAnonymous]
@@ -94,9 +111,18 @@ public class AccountController : BaseController
         if (result.Succeeded)
         {
             var user = await userManager.FindByNameAsync(model.UserName);
-            SaveADACookie(user.ADA);
-            return Redirect(returnUrl ?? "/");
+            if (user.Active)
+            {
+                SaveADACookie(user.ADA);
+                return Redirect(returnUrl ?? "/");
+            }
+
+            await signInManager.SignOutAsync();
+            ViewBag.Message = "User is INACTIVE!";
+            return View(model);
         }
+
+        ViewBag.Message = "Incorrect Credentials";
 
         return View(model);
     }
@@ -191,7 +217,13 @@ public class AccountController : BaseController
             if (user.Active && !userItem.Selected)
             {
                 var images = db.Entry(user).Collection(u => u.Images).Query().ToList();
-                foreach (var image in images) db.Images.Remove(image);
+                foreach (var image in images)
+                {
+                    SysIOFile.Delete(imageDataFile(image.Id));
+
+                    db.Images.Remove(image);
+                }
+
                 user.Active = false;
             }
             else if (!user.Active && userItem.Selected)

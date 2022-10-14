@@ -43,7 +43,7 @@ public class ApplicationDbInitializer
         idResult = await CreateAccount(serviceProvider, "admin@admin.org", "admin123", "Admin");
         if (!idResult.Succeeded) logger.LogDebug("Failed to create jfk user!");
 
-        logger.LogDebug("Adding user: nixon");
+        logger.LogDebug("Adding user: approver");
         idResult = await CreateAccount(serviceProvider, "approver@approver.org", "approver123", "Approver");
         if (!idResult.Succeeded) logger.LogDebug("Failed to create nixon user!");
 
