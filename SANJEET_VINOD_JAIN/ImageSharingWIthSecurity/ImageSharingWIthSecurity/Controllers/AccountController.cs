@@ -25,10 +25,10 @@ namespace ImageSharingWithSecurity.Controllers
         private readonly ILogger<AccountController> logger;
 
         // Dependency injection of DB context and user/signin managers
-        public AccountController(UserManager<ApplicationUser> userManager, 
-                                 SignInManager<ApplicationUser> signInManager, 
+        public AccountController(UserManager<ApplicationUser> userManager,
+                                 SignInManager<ApplicationUser> signInManager,
                                  ApplicationDbContext db,
-                                 ILogger<AccountController> logger) 
+                                 ILogger<AccountController> logger)
             : base(userManager, db)
         {
             this.signInManager = signInManager;
@@ -62,7 +62,7 @@ namespace ImageSharingWithSecurity.Controllers
                 {
                     SaveADACookie(model.ADA);
                     await signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home", new { model.Email});
+                    return RedirectToAction("Index", "Home", new { model.Email });
                 }
             }
 
@@ -92,12 +92,12 @@ namespace ImageSharingWithSecurity.Controllers
             }
 
             // TODO-DONE log in the user from the model (make sure they are still active)
-            var result = await signInManager.PasswordSignInAsync(model.UserName,model.Password,model.RememberMe,false);
+            var result = await signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
             if (result.Succeeded)
             {
-                var user = userManager.FindByNameAsync(model.UserName);
-                SaveADACookie(user.Result.ADA);
-                return RedirectToAction("Index","Home",model.UserName);
+                var user = await userManager.FindByNameAsync(model.UserName);
+                SaveADACookie(user.ADA);
+                return Redirect(returnUrl ?? "/");
             }
             return View(model);
         }
@@ -105,11 +105,11 @@ namespace ImageSharingWithSecurity.Controllers
         //
         // GET: /Account/Password
 
-       [HttpGet]
+        [HttpGet]
         public ActionResult Password(PasswordMessageId? message)
         {
             CheckAda();
-            ViewBag.StatusMessage =
+            ViewBag.Message =
                  message == PasswordMessageId.ChangePasswordSuccess ? "Your password has been changed."
                  : message == PasswordMessageId.SetPasswordSuccess ? "Your password has been set."
                  : message == PasswordMessageId.RemoveLoginSuccess ? "The external login was removed."
@@ -132,16 +132,32 @@ namespace ImageSharingWithSecurity.Controllers
             {
                 IdentityResult idResult = null; ;
 
-                // TODO change the password
-
-
-                if (idResult.Succeeded)
+                // TODO-DONE change the password
+                var user = await GetLoggedInUser();
+                if (user == null)
                 {
-                    return RedirectToAction("Password", new { Message = PasswordMessageId.ChangePasswordSuccess });
+                    return RedirectToAction("AccessDenied");
+                }
+
+                var checkPassword = await userManager.CheckPasswordAsync(user, model.OldPassword);
+                if (checkPassword)
+                {
+                    string resetToken = await userManager.GeneratePasswordResetTokenAsync(user);
+                    idResult = await userManager.ResetPasswordAsync(user, resetToken, model.NewPassword);
+
+                    if (idResult.Succeeded)
+                    {
+                        return RedirectToAction("Password", new { Message = PasswordMessageId.ChangePasswordSuccess });
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "The new password is invalid.");
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError("", "The new password is invalid.");
+                    ModelState.AddModelError("OldPassword", "The old password is invalid.");
+
                 }
             }
 
@@ -150,7 +166,7 @@ namespace ImageSharingWithSecurity.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Manage()
         {
             CheckAda();
@@ -212,12 +228,18 @@ namespace ImageSharingWithSecurity.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
+        [HttpGet]
+        public async Task<IActionResult> AccessDenied()
+        {
+            CheckAda();
+            //return View();
+            return RedirectToActionPermanent("Index", "Home");
+        }
         protected void SaveADACookie(bool value)
         {
             // TODO-DONE save the value in a cookie field key
             var options = new CookieOptions
-                { IsEssential = true, Secure = true, SameSite = SameSiteMode.None, Expires = DateTime.Now.AddMonths(3) };
+            { IsEssential = true, Secure = true, SameSite = SameSiteMode.None, Expires = DateTime.Now.AddMonths(3) };
             Response.Cookies.Append("ADA", value.ToString().ToLower(), options);
 
         }

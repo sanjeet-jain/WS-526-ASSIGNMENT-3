@@ -56,8 +56,8 @@ namespace ImageSharingWithSecurity.DAL
                 logger.LogDebug("Failed to create Approver role!");
             }
 
-            logger.LogDebug("Adding user: jfk");
-            idResult = await CreateAccount(serviceProvider, "jfk@example.org", "jfk123", "Admin");
+            logger.LogDebug("Adding user: admin");
+            idResult = await CreateAccount(serviceProvider, "admin@admin.org", "admin123", "Admin");
             if (!idResult.Succeeded)
             {
                 logger.LogDebug("Failed to create jfk user!");

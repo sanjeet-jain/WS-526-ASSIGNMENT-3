@@ -33,7 +33,7 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
 string connectionString = builder.Configuration.GetConnectionString("ImageSharingDB");
-// TODO add database context & enable saving data in the log (not for production use!)
+// TODO-DONE add database context & enable saving data in the log (not for production use!)
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(connectionString);
@@ -52,7 +52,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     options.Password.RequireUppercase = false;
     options.Password.RequireDigit = false;
 })
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 WebApplication app = builder.Build();
 
@@ -84,7 +85,7 @@ app.UseEndpoints(endpoints =>
 });
 
 /*
- * TODO Seed the database: We need to manually inject the dependencies of the initalizer.
+ * TODO-DONE Seed the database: We need to manually inject the dependencies of the initalizer.
  * EF services are scoped to a request, so we must create a temporary scope for its injection.
  * More on dependency injection: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection
  * More on DbContext lifetime: https://learn.microsoft.com/en-us/ef/core/dbcontext-configuration/
