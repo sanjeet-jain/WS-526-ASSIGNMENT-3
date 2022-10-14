@@ -1,104 +1,78 @@
-﻿body 
-{
+﻿body {
     background: #666666;
-    margin: 0;
-    padding: 0;
     color: #000000;
     font-family: Verdana, Arial, Helvetica, Sans-Serif;
-    font-size: 100%;
-    border: solid;
+    margin: 0;
+    padding: 0;
 }
 
-table th {
-    border-width: 1px;
-    padding: 8px;
-    border-style: solid;
-    border-color: #666666;
-    background-color: #dedede;
-}
-
-table td {
-    border-width: 1px;
-    padding: 8px;
-    border-style: solid;
-    border-color: #666666;
-    background-color: #ffffff;
-}
-
-.twoColumnHdrFtr #container
-{
-    width: 780px;
-    margin: 0 auto;
+.twoColumnHdrFtr #container {
     background: #ffffff;
     border: 1px solid #000000;
+    margin: 0 auto;
+    max-width: 90vw;
+    min-height: 90vh;
+    overflow: hidden;
     text-align: left;
 }
 
-.twoColumnHdrFtr #header
-{
+.twoColumnHdrFtr #header {
     background: #dddddd;
-    padding: 10px;
 }
-.twoColumnHdrFtr #header h1
-{
-    text-align: center;
+
+.twoColumnHdrFtr #header h1 {
     margin: 0;
+    text-align: center;
     /* padding: 10px; */
 }
 
-.twoColumnHdrFtr #sidebar
-{
-    float: left;
-    width: 180px;
+.twoColumnHdrFtr #sidebar {
     background: #ebebeb;
-    padding: 10px;
+    float: left;
     font-family: "Trebuchet MS", Arial, Helvetica, Sans-Serif;
+    padding: 10px;
+    width: 10%;
 }
-.twoColumnHdrFtr #sidebar h1
-{
+
+.twoColumnHdrFtr #sidebar h1 {
     font-size: 100%;
 }
 
-#nav 
-{
-    padding:5px 10px;
+#nav {
     /* background:#c99; */
     font-family: "Trebuchet MS", Arial, Helvetica, Sans-Serif;
-    font-size: 80%;
-}
-#nav ul 
-{
-    margin:0;
-    padding:0;
-    list-style:none;
-}
-#nav li 
-{
-    display:inline;
-    margin:0;
-    padding:0 10px;
+    font-size: 100%;
+    padding: 5px 10px;
 }
 
-.twoColumnHdrFtr #content
-{
-    float: right;
-    width: 560px;
-    padding: 10px;
-    font-family: "Trebuchet MS", Arial, Helvetica, Sans-Serif;
-}
-
-.twoColumnHdrFtr #footer
-{
-    clear: both;
-    background: #dddddd;
-    padding: 10px;
-}
-
-.twoColumnHdrFtr #footer p
-{
-    padding: 10px;
+#nav ul {
+    list-style: none;
     margin: 0;
+    padding: 0;
+}
+
+#nav li {
+    display: inline;
+    margin: 0;
+    padding: 0 10px;
+}
+
+.twoColumnHdrFtr #content {
+    float: left;
+    font-family: "Trebuchet MS", Arial, Helvetica, Sans-Serif;
+    padding: 10px;
+    width: 70%;
+}
+
+.twoColumnHdrFtr #footer {
+    background-color: white;
+    border: 1px solid #000000;
+    margin: 0 auto;
+    padding: 0;
+    padding: 10px;
+    width: 90vw;
+}
+
+.twoColumnHdrFtr #footer p {
     font-size: x-small;
-    color: #900;
-    text-align: center;
 }

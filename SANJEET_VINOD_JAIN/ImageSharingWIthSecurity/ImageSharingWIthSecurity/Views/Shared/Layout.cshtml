@@ -9,7 +9,7 @@
     <title> @ViewBag.Title </title>
 
     @{
-        var SiteCss = ViewBag.isAda ? "site_ADA.css" : "site.css";
+        var SiteCss = ViewBag.isADA ? "site_ADA.css" : "site.css";
     }
 
     <environment include="Development">
@@ -28,7 +28,9 @@ s</head>
 <body class="twoColumnHdrFtr">
     <div id="container">
         <header id="header">
-            <h1><img alt="[Jive Talkin' Choirboy]" src="~/images/jive-talkin-choirboy.png" /></h1>
+            <h1>
+                <img class="img-thumbnail img-fluid" alt="[Home Page Banner]" src="~/images/main-banner-3.png"/>
+            </h1>
         </header>
 
         <nav id="nav">
@@ -50,7 +52,12 @@ s</head>
         <aside id="sidebar">
             <h1>Links</h1>
             <p><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></p>
-            <p><a href="http://www.stevens.edu">Stevens home page</a></p>
+            <p>
+                <a href="https://sanjeet-jain.github.io/">My home page</a>
+            </p>
+            <p>
+                <a href="http://www.stevens.edu">Stevens home page</a>
+            </p>
         </aside>
 
         <partial name="_CookieConsentPartial" />
@@ -58,10 +65,10 @@ s</head>
         <article id="content">
             @RenderBody()
         </article>
-        <footer id="footer">
-            <p>&copy; @DateTime.Now.Year Your Name Here</p>
-        </footer>
     </div>
+        <footer id="footer" class="fixed-bottom text-center text-muted">
+            <p c> &copy; @DateTime.Now.Year SITE MAINTAINED BY <a href="https://sanjeet-jain.github.io/">SANJEET JAIN</a></p>
+        </footer>
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
