@@ -64,7 +64,7 @@ namespace ImageSharingWithSecurity.DAL
             }
 
             logger.LogDebug("Adding user: nixon");
-            idResult = await CreateAccount(serviceProvider, "nixon@example.org", "nixon123", "Approver");
+            idResult = await CreateAccount(serviceProvider, "approver@approver.org", "approver123", "Approver");
             if (!idResult.Succeeded)
             {
                 logger.LogDebug("Failed to create nixon user!");

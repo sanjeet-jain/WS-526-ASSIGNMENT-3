@@ -31,10 +31,13 @@
 
                 @if (ViewBag.UserName.Equals(image.User.UserName))
                 {
-                    <text>
                         <!-- TODO add Edit and Delete links -->
-
-                    </text>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@image.Id">Edit</a>
+                        </td>
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@image.Id">Delete</a>
+                        </td>
                 }
             </td>
         </tr>

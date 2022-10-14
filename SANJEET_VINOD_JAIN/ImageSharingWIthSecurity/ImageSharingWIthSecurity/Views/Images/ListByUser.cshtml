@@ -13,6 +13,9 @@
         <p>
             <!-- TODO select user from a drop-down menu -->
             User: 
+            <select asp-for="Id" asp-items="Model.Users">
+                <option disabled selected value="">Select a User</option>
+            </select>
 
         </p>
         <p>

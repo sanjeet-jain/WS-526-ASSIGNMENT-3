@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ImageSharingWithSecurity.Controllers
 {
+    using SysIOFile = File;
+
     [Authorize]
     public class ImagesController : BaseController
     {
@@ -80,28 +82,58 @@ namespace ImageSharingWithSecurity.Controllers
 
             if (!ModelState.IsValid)
             {
-                ViewBag.Message = "Please correct the errors in the form!";
-                ViewBag.Tags = new SelectList(db.Tags, "Id", "Name", 1);
-                return View();
-            }
+                ViewBag.ImageErrorMessage = "No image file specified!";
+                ViewBag.ImageNotUploaded = true;
+                if (ModelState["DateTaken"]?.Errors.Count > 0)
+                {
+                    ModelState["DateTaken"].Errors.Clear();
+                    ModelState.AddModelError("DateTaken", "Please Enter Valid Date");
+                }
 
-            ApplicationUser user = await GetLoggedInUser();
-
-            if (imageView.ImageFile == null || imageView.ImageFile.Length <= 0)
-            {
-                ViewBag.Message = "No image file specified!";
                 imageView.Tags = new SelectList(db.Tags, "Id", "Name", 1);
                 return View(imageView);
             }
 
-            // TODO save image metadata in the database 
 
+            if (imageView.ImageFile == null || imageView.ImageFile.Length <= 0)
+            {
+                ViewBag.ImageErrorMessage = "No image file specified!";
+                ViewBag.ImageNotUploaded = true;
+                imageView.Tags = new SelectList(db.Tags, "Id", "Name", 1);
+                return View(imageView);
+            }
+
+            ApplicationUser user = await GetLoggedInUser();
+            if (user == null)
+            {
+                return RedirectToAction("AccessDenied","Account");
+            }
+            // TODO-DONE save image metadata in the database 
+            var selectedTag = await db.Tags.SingleOrDefaultAsync(x => x.Id.Equals(imageView.TagId));
+
+            Image image = null;
+            image = new Image
+            {
+                Caption = imageView.Caption,
+                Description = imageView.Description,
+                DateTaken = imageView.DateTaken,
+                UserId = user.Id,
+                TagId = selectedTag.Id,
+                User = user,
+                Tag = selectedTag
+            };
+            await db.Images.AddAsync(image);
+            await db.SaveChangesAsync();
             // end TODO
 
             mkDirectories();
 
-            // TODO save image file on disk
-            Image image = null;
+            // TODO-DONE save image file on disk
+            using (var DestinationStream = SysIOFile.Create(imageDataFile(image.Id)))
+            {
+                await imageView.ImageFile.CopyToAsync(DestinationStream);
+            }
+
             // end TODO
 
             return RedirectToAction("Details", new { Id = image.Id });
@@ -285,8 +317,11 @@ namespace ImageSharingWithSecurity.Controllers
         {
             CheckAda();
 
-            // TODO Return form for selecting a user from a drop-down list
-            return View();
+            // TODO-DONE Return form for selecting a user from a drop-down list
+            var userView = new ListByUserModel();
+            userView.Users = new SelectList(db.Users, "Id","UserName", 1);
+
+            return View(userView);
             // End TODO
 
         }
@@ -295,9 +330,22 @@ namespace ImageSharingWithSecurity.Controllers
         public async Task<ActionResult> DoListByUser(ListByUserModel userView)
         {
             CheckAda();
+            var loggedinuser = await GetLoggedInUser();
+            if (loggedinuser == null)
+            {
+                return RedirectToAction("AccessDenied","Account");
+            }
 
-            // TODO list all images uploaded by the user in userView (see List By Tag)
-            return View();
+            // TODO-DONE list all images uploaded by the user in userView (see List By Tag)
+            var user = await db.Users.FindAsync(userView.Id);
+            if (user == null) return RedirectToAction("Error", "Home", new { ErrId = "ListByUser" });
+            ViewBag.Username = loggedinuser.UserName;
+            /*
+             * Eager loading of related entities
+             */
+            var images = db.Entry(user).Collection(t => t.Images).Query().Include(im => im.User).Include(t => t.Tag)
+                .ToList();
+            return View("ListAll", user.Images);
             // End TODO
 
 

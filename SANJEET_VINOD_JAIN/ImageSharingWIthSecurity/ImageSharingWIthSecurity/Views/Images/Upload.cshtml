@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "Upload an Image";
+    ViewBag.ImageNotUploaded = ViewBag.ImageNotUploaded ?? true;
+
 }
 
 <h2>@ViewBag.Title</h2>
@@ -13,32 +15,51 @@
     <fieldset>
         <legend>Enter Image Information</legend>
         <p>
-            Caption: <!-- TODO -->
+            Caption: <!-- TODO-DONE -->
             <input asp-for="Caption" /><span asp-validation-for="Caption" />
-        </p>
-        <p>
-            Select a tag:  <!-- TODO -->
+            <br/>
+            <span class="text-danger" asp-validation-for="Caption"></span>
 
         </p>
         <p>
-            Description:<br /> <!-- TODO -->
+            Select a tag<!-- TODO-DONE -->
+            <select asp-for="TagId" asp-items="Model.Tags">
+                <option disabled selected value="">Select a tag</option>
+            </select>
+            <br/>
+            <span class="text-danger" asp-validation-for="TagId"></span>
+
 
         </p>
         <p>
-            Date taken:  <!-- TODO -->
+            Description:<br /> <!-- TODO-DONE -->
+            <textarea asp-for="Description" cols="40" rows="5">
+                Enter description here.
+            </textarea>
+            <br/>
+            <span class="text-danger" asp-validation-for="Description"></span>
+
+        </p>
+        <p>
+            Date taken:  <!-- TODO-DONE -->
+            <input asp-for="DateTaken"/><span asp-validation-for="DateTaken"/>
+            <br/>
+            <span class="text-danger" asp-validation-for="DateTaken"></span>
+
 
         </p>
         <p>
             <input asp-for="ImageFile" />
+            @if (ViewBag.ImageNotUploaded)
+            {
+                <br/>
+                <span class="text-danger">@ViewBag.ImageErrorMessage</span>
+            }
+
         </p>
         <p>
             <input type="submit" value="Upload" />
         </p>
     </fieldset>
-
-    <p>@ViewBag.Message</p>
-    <p><div class="text-danger" asp-validation-summary="ModelOnly"></div></p>
-    <p>@ViewBag.Message</p>
-    <p><div class="text-danger" asp-validation-summary="ModelOnly"></div></p>
 
 </form>
